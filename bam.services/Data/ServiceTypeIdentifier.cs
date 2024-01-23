@@ -18,21 +18,24 @@ namespace Bam.Net.CoreServices.ServiceRegistration.Data
         /// <summary>
         /// The git commit hash at the point of the build
         /// </summary>
-        public string BuildNumber { get; set; }
-        public string Namespace { get; set; }
-        public string TypeName { get; set; }
+        public string? BuildNumber { get; set; }
+        public string? Namespace { get; set; }
+        public string? TypeName { get; set; }
 
         /// <summary>
         /// The name of the assembly file; used to attempt 
         /// to load the assembly locally before attempting
         /// to load from the AssemblyFileHash
         /// </summary>
-        public string AssemblyName { get; set; }
-        public string AssemblyFileHash { get; set; }
+        public string? AssemblyName { get; set; }
+        public string? AssemblyFileHash { get; set; }
 
         /// <summary>
-        /// The Sha1Int() of ToString ("{Namespace}.{TypeName}[{BuildNumber}]::{AssemblyFullName}({AssemblyFileHash})")
+        /// Gets or sets the durable hash.
         /// </summary>
+        /// <remarks>
+        /// The Sha1Int() of ToString ("{Namespace}.{TypeName}[{BuildNumber}]::{AssemblyFullName}({AssemblyFileHash})")
+        /// </remarks>
         public int DurableHash { get; set; }
 
         /// <summary>
@@ -109,7 +112,7 @@ namespace Bam.Net.CoreServices.ServiceRegistration.Data
 
         private void WarnForBlanks(ILogger logger = null)
         {
-            foreach(string property in new[] { "BuildNumber", "Namespace", "TypeName", "AssemblyName", "AssemblyFileHash" })
+            foreach(string property in new[] { nameof(BuildNumber), nameof(Namespace), nameof(TypeName), nameof(AssemblyName), nameof(AssemblyFileHash) })
             {
                 WarnForBlank(property, logger);
             }
