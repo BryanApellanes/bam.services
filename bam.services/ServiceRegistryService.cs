@@ -4,25 +4,25 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Bam.Net.CoreServices;
-using Bam.Net.Data.Repositories;
-using Bam.Net.Incubation;
-using Bam.Net.Server;
-using Bam.Net.ServiceProxy.Encryption;
-using Bam.Net.CoreServices.ServiceRegistration;
-using Bam.Net.CoreServices.ServiceRegistration.Data;
-using Bam.Net.CoreServices.ServiceRegistration.Data.Dao.Repository;
-using Bam.Net.ServiceProxy;
+using Bam.CoreServices;
+using Bam.Data.Repositories;
+using Bam.Incubation;
+using Bam.Server;
+using Bam.ServiceProxy.Encryption;
+using Bam.CoreServices.ServiceRegistration;
+using Bam.CoreServices.ServiceRegistration.Data;
+using Bam.CoreServices.ServiceRegistration.Data.Dao.Repository;
+using Bam.ServiceProxy;
 using System.IO;
-using Bam.Net.Yaml;
-using Bam.Net.CoreServices.Files;
-using Bam.Net.Configuration;
-using Bam.Net.Logging;
-using Bam.Net.CoreServices.AssemblyManagement.Data.Dao.Repository;
-using Bam.Net.Data;
+using Bam.Yaml;
+using Bam.CoreServices.Files;
+using Bam.Configuration;
+using Bam.Logging;
+using Bam.CoreServices.AssemblyManagement.Data.Dao.Repository;
+using Bam.Data;
 using CsQuery.ExtensionMethods.Internal;
 
-namespace Bam.Net.CoreServices
+namespace Bam.CoreServices
 {
     /// <summary>
     /// Provides a central point of management for
@@ -233,7 +233,7 @@ namespace Bam.Net.CoreServices
                 try
                 {
                     ServiceRegistryLoaderAttribute loaderAttr = method.GetCustomAttributeOfType<ServiceRegistryLoaderAttribute>();
-                    if (loaderAttr.ProcessModes.Contains(Bam.Net.ProcessMode.Current.Mode))
+                    if (loaderAttr.ProcessModes.Contains(Bam.ProcessMode.Current.Mode))
                     {
                         string registryName = loaderAttr.RegistryName ?? $"{type.Namespace}.{type.Name}.{method.Name}";
                         string description = loaderAttr.Description ?? registryName;

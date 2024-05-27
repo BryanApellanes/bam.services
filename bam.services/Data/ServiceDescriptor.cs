@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Bam.Net.Data.Repositories;
+using Bam.Data.Repositories;
 
-namespace Bam.Net.CoreServices.ServiceRegistration.Data
+namespace Bam.CoreServices.ServiceRegistration.Data
 {
     /// <summary>
     /// A persistable descriptor for an interface

@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bam.Net.CoreServices.ServiceRegistration
+namespace Bam.CoreServices.ServiceRegistration
 {
     public class ServiceDefinition
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bam.Net.CoreServices.ServiceRegistration
+namespace Bam.CoreServices.ServiceRegistration
 {
     public class ServiceRegistryBuilder
     {

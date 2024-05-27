@@ -4,16 +4,16 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Bam.Net.CoreServices;
-using Bam.Net.Data.Repositories;
-using Bam.Net.Logging;
+using Bam.CoreServices;
+using Bam.Data.Repositories;
+using Bam.Logging;
 
-namespace Bam.Net.CoreServices.ServiceRegistration.Data
+namespace Bam.CoreServices.ServiceRegistration.Data
 {
     /// <summary>
     /// A descriptor providing meta data about a method used to load a service registry.
     /// </summary>
-    /// <seealso cref="Bam.Net.Data.Repositories.AuditRepoData" />
+    /// <seealso cref="Bam.Data.Repositories.AuditRepoData" />
     [Serializable]
     public class ServiceRegistryLoaderDescriptor: AuditRepoData
     {

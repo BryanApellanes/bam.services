@@ -5,10 +5,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Bam.Net.Data.Repositories;
-using Bam.Net.Logging;
+using Bam.Data.Repositories;
+using Bam.Logging;
 
-namespace Bam.Net.CoreServices.ServiceRegistration.Data
+namespace Bam.CoreServices.ServiceRegistration.Data
 {
     /// <summary>
     /// Uniquely identifies a service type.

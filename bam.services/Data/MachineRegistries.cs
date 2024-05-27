@@ -4,9 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Bam.Net.Data.Repositories;
+using Bam.Data.Repositories;
 
-namespace Bam.Net.CoreServices.ServiceRegistration.Data
+namespace Bam.CoreServices.ServiceRegistration.Data
 {
     public class MachineRegistries: KeyedAuditRepoData
     {

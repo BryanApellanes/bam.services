@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Bam.Net.Data.Repositories;
-using Bam.Net.Incubation;
+using Bam.Data.Repositories;
+using Bam.Incubation;
 
-namespace Bam.Net.CoreServices.ServiceRegistration.Data
+namespace Bam.CoreServices.ServiceRegistration.Data
 {
     /// <summary>
     /// A serializable descriptor for a ServiceRegistry

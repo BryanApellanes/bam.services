@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Bam.Net.CoreServices;
+using Bam.CoreServices;
 
-namespace Bam.Net.CoreServices.ServiceRegistration
+namespace Bam.CoreServices.ServiceRegistration
 {
     /// <summary>
     /// A class providing meta data about a service registry container type.
