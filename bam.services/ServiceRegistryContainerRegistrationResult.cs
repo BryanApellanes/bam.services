@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Bam.CoreServices;
+﻿using System.Reflection;
+using Bam.DependencyInjection;
+using Bam.Services;
 
 namespace Bam.CoreServices.ServiceRegistration
 {
@@ -13,7 +9,7 @@ namespace Bam.CoreServices.ServiceRegistration
     /// </summary>
     public class ServiceRegistryContainerRegistrationResult
     {
-        public ServiceRegistryContainerRegistrationResult(string name, CoreServices.ServiceRegistry registry, Type type, MethodInfo method, ServiceRegistryLoaderAttribute attr)
+        public ServiceRegistryContainerRegistrationResult(string name, ServiceRegistry registry, Type type, MethodInfo method, ServiceRegistryLoaderAttribute attr)
         {
             Success = true;
             Type = type;
@@ -35,6 +31,6 @@ namespace Bam.CoreServices.ServiceRegistration
         public ServiceRegistryLoaderAttribute Attribute { get; set; }
         public MethodInfo MethodInfo { get; set; }
         public Type Type { get; set; }
-        public CoreServices.ServiceRegistry ServiceRegistry { get; set; }
+        public ServiceRegistry ServiceRegistry { get; set; }
     }
 }

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Bam.Data.Repositories;
-using Bam.Incubation;
+﻿using Bam.Data.Repositories;
+using Bam.DependencyInjection;
+using Bam.Services;
 
 namespace Bam.CoreServices.ServiceRegistration.Data
 {

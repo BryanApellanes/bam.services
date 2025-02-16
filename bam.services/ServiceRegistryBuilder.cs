@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Bam.DependencyInjection;
+using Bam.Services;
 
 namespace Bam.CoreServices.ServiceRegistration
 {
@@ -28,10 +25,10 @@ namespace Bam.CoreServices.ServiceRegistration
             return this;
         }
         
-        public CoreServices.ServiceRegistry Build()
+        public ServiceRegistry Build()
         {
             Args.ThrowIf(_forTypes.Count != _useTypes.Count, "Type count mismatch: for types ({0}) use types({1})", _forTypes.Count, _useTypes.Count);
-            CoreServices.ServiceRegistry reg = new CoreServices.ServiceRegistry();
+            ServiceRegistry reg = new ServiceRegistry();
             for(int i = 0; i < _forTypes.Count; i++)
             {
                 reg.Set(_forTypes[i], _useTypes[i]);
