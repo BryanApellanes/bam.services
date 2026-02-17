@@ -42,19 +42,19 @@ namespace Bam.CoreServices.ServiceRegistration.Data
             SetDurableHashes();
             if(QueryFirstOrDefault<ServiceTypeIdentifier>(repo, nameof(DurableHash), nameof(DurableSecondaryHash)) == null)
             {
-                return repo.Save(this);
+                return repo.Save(this)!;
             }
             return this;
         }
 
-        public static ServiceTypeIdentifier FromType(Type type, ILogger logger = null)
+        public static ServiceTypeIdentifier FromType(Type type, ILogger logger = null!)
         {
-            logger = logger ?? Log.Default;
-            FileInfo commitFile = new FileInfo(Path.Combine(Assembly.GetEntryAssembly().GetFileInfo().Directory.FullName, "commit"));
+            logger = logger ?? Log.Default!;
+            FileInfo commitFile = new FileInfo(Path.Combine(Assembly.GetEntryAssembly()!.GetFileInfo().Directory!.FullName, "commit"));
             string buildNumber = "UNKNOWN";
             if (!commitFile.Exists)
             {
-                logger.Warning("commit file not found: {0}", commitFile.FullName);
+                logger!.Warning("commit file not found: {0}", commitFile.FullName);
             }
             else
             {
@@ -83,14 +83,14 @@ namespace Bam.CoreServices.ServiceRegistration.Data
             return $"{Namespace}.{TypeName}::{AssemblyName}({AssemblyFileHash})";
         }
 
-        public void SetDurableHashes(ILogger logger = null)
+        public void SetDurableHashes(ILogger logger = null!)
         {
             WarnForBlanks(logger);
             DurableHash = ToString().ToSha1Int();
             DurableSecondaryHash = ToSecondaryString().ToSha1Int();
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if(obj is ServiceTypeIdentifier sti)
             {
@@ -104,7 +104,7 @@ namespace Bam.CoreServices.ServiceRegistration.Data
             return ToString().ToSha1Int();
         }
 
-        private void WarnForBlanks(ILogger logger = null)
+        private void WarnForBlanks(ILogger logger = null!)
         {
             foreach(string property in new[] { nameof(BuildNumber), nameof(Namespace), nameof(TypeName), nameof(AssemblyName), nameof(AssemblyFileHash) })
             {
@@ -112,12 +112,12 @@ namespace Bam.CoreServices.ServiceRegistration.Data
             }
         }
 
-        private void WarnForBlank(string propertyName, ILogger logger = null)
+        private void WarnForBlank(string propertyName, ILogger logger = null!)
         {
-            logger = logger ?? Log.Default;
+            logger = logger ?? Log.Default!;
             if (string.IsNullOrEmpty(this.Property<string>(propertyName)))
             {
-                logger.Warning("{0} was blank: {1}", propertyName, ToString());
+                logger!.Warning("{0} was blank: {1}", propertyName, ToString());
             }
         }
     }

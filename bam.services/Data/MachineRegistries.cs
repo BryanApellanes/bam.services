@@ -21,6 +21,6 @@ namespace Bam.CoreServices.ServiceRegistration.Data
         /// <summary>
         /// A delimited list of ServiceRegistry names
         /// </summary>
-        public string RegistryNames { get; set; }
+        public string RegistryNames { get; set; } = null!;
     }
 }

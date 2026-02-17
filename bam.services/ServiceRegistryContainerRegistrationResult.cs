@@ -25,12 +25,12 @@ namespace Bam.CoreServices.ServiceRegistration
             Success = false;
         }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
         public bool Success { get; set; }
-        public Exception Exception { get; set; }
-        public ServiceRegistryLoaderAttribute Attribute { get; set; }
-        public MethodInfo MethodInfo { get; set; }
-        public Type Type { get; set; }
-        public ServiceRegistry ServiceRegistry { get; set; }
+        public Exception Exception { get; set; } = null!;
+        public ServiceRegistryLoaderAttribute Attribute { get; set; } = null!;
+        public MethodInfo MethodInfo { get; set; } = null!;
+        public Type Type { get; set; } = null!;
+        public ServiceRegistry ServiceRegistry { get; set; } = null!;
     }
 }

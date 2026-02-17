@@ -17,15 +17,15 @@ namespace Bam.CoreServices.ServiceRegistration.Data
         public ServiceRegistryLoaderDescriptor(Assembly ass)
         {
             Type[] types = ass.GetTypes().Where(t => t.HasCustomAttributeOfType<ServiceRegistryContainerAttribute>()).ToArray();
-            Type toUse = types.FirstOrDefault();
+            Type toUse = types.FirstOrDefault()!;
             if(types.Length > 1)
             {
-                Log.Warn("The specified assembly {0} contains more than one type adorned with a {1} attribute, registering {2}", ass.GetFilePath(), nameof(ServiceRegistryContainerAttribute), toUse.FullName);
+                Log.Warn("The specified assembly {0} contains more than one type adorned with a {1} attribute, registering {2}", ass.GetFilePath(), nameof(ServiceRegistryContainerAttribute), toUse!.FullName!);
             }
-            Initialize(toUse);
+            Initialize(toUse!);
         }
 
-        public ServiceRegistryLoaderDescriptor(Type type, string name = null, string description = null)
+        public ServiceRegistryLoaderDescriptor(Type type, string name = null!, string description = null!)
         {
             Initialize(type, name, description);
         }
@@ -36,7 +36,7 @@ namespace Bam.CoreServices.ServiceRegistration.Data
         /// <value>
         /// The name.
         /// </value>
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets an optional description.  Corresponds to the description of
@@ -45,7 +45,7 @@ namespace Bam.CoreServices.ServiceRegistration.Data
         /// <value>
         /// The description.
         /// </value>
-        public string Description { get; set; }
+        public string Description { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the type of the loader.
@@ -53,7 +53,7 @@ namespace Bam.CoreServices.ServiceRegistration.Data
         /// <value>
         /// The type of the loader.
         /// </value>
-        public string LoaderType { get; set; }
+        public string LoaderType { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the loader assembly.
@@ -61,7 +61,7 @@ namespace Bam.CoreServices.ServiceRegistration.Data
         /// <value>
         /// The loader assembly.
         /// </value>
-        public string LoaderAssembly { get; set; }
+        public string LoaderAssembly { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the loader method.
@@ -69,13 +69,13 @@ namespace Bam.CoreServices.ServiceRegistration.Data
         /// <value>
         /// The loader method.
         /// </value>
-        public string LoaderMethod { get; set; }
-        
-        private void Initialize(Type type, string name = null, string description = null)
+        public string LoaderMethod { get; set; } = null!;
+
+        private void Initialize(Type type, string name = null!, string description = null!)
         {
-            LoaderType = type.FullName;
-            LoaderAssembly = type.Assembly.FullName;
-            MethodInfo loaderMethodInfo = type.GetMethods().FirstOrDefault(mi => ((MemberInfo) mi).HasCustomAttributeOfType(out ServiceRegistryLoaderAttribute a) && a.RegistryName.Equals(name));
+            LoaderType = type.FullName!;
+            LoaderAssembly = type.Assembly.FullName!;
+            MethodInfo loaderMethodInfo = type.GetMethods().FirstOrDefault(mi => ((MemberInfo) mi).HasCustomAttributeOfType(out ServiceRegistryLoaderAttribute a) && a.RegistryName.Equals(name))!;
             if (loaderMethodInfo == null)
             {
                 loaderMethodInfo = type.GetFirstMethodWithAttributeOfType<ServiceRegistryLoaderAttribute>();

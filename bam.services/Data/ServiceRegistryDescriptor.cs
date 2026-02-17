@@ -12,9 +12,9 @@ namespace Bam.CoreServices.ServiceRegistration.Data
     {
         public ServiceRegistryDescriptor() { }
         public ServiceRegistryDescriptor(string name, string description) { }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public virtual List<ServiceDescriptor> Services { get; set; }
+        public string Name { get; set; } = null!;
+        public string Description { get; set; } = null!;
+        public virtual List<ServiceDescriptor> Services { get; set; } = null!;
 
         public ServiceDescriptor AddService(Type forType, Type useType)
         {
@@ -28,7 +28,7 @@ namespace Bam.CoreServices.ServiceRegistration.Data
             return add;
         }
 
-        public static ServiceRegistryDescriptor FromIncubator(string name, DependencyProvider incubator, string desciption = null)
+        public static ServiceRegistryDescriptor FromIncubator(string name, DependencyProvider incubator, string desciption = null!)
         {
             ServiceRegistryDescriptor result = new ServiceRegistryDescriptor(name, desciption);
             foreach(Type type in incubator.MappedTypes)
@@ -44,7 +44,7 @@ namespace Bam.CoreServices.ServiceRegistration.Data
             {
                 svcDesc.Save(repo);
             }
-            return base.Save(repo);
+            return base.Save(repo)!;
         }
 
         private void SetSequenceValues()

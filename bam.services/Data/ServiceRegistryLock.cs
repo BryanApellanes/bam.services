@@ -5,6 +5,6 @@ namespace Bam.CoreServices.ServiceRegistration.Data
     [Serializable]
     public class ServiceRegistryLock: AuditRepoData
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
     }
 }

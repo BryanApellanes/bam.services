@@ -30,10 +30,10 @@ namespace Bam.CoreServices.ServiceRegistration.Data
         public int UseTypeDurableHash { get; set; }
         public int UseTypeDurableSecondaryHash { get; set; }
         
-        protected ServiceTypeIdentifier ForTypeIdentifier { get; set; }
-        protected ServiceTypeIdentifier UseTypeIdentifier { get; set; }
+        protected ServiceTypeIdentifier ForTypeIdentifier { get; set; } = null!;
+        protected ServiceTypeIdentifier UseTypeIdentifier { get; set; } = null!;
 
-        public virtual List<ServiceRegistryDescriptor> ServiceRegistry { get; set; }
+        public virtual List<ServiceRegistryDescriptor> ServiceRegistry { get; set; } = null!;
 
         public new ServiceDescriptor Save(IRepository repo)
         {
@@ -45,7 +45,7 @@ namespace Bam.CoreServices.ServiceRegistration.Data
             {
                 UseTypeIdentifier.Save(repo);
             }
-            return repo.Save(this);
+            return repo.Save(this)!;
         }
 
         public ServiceTypeIdentifier GetForTypeIdentifier(IRepository repo)
@@ -64,10 +64,10 @@ namespace Bam.CoreServices.ServiceRegistration.Data
             {
                 return o.CopyAs<ServiceTypeIdentifier>(); // return the first entry if its there; use foreach since the runtime craps itself because of all the reflection magic
             }
-            return null;
+            return null!;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if(obj is ServiceDescriptor sd)
             {
