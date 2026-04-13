@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="ServiceExe.cs">
+    <Compile Update="WindowsSystemService.cs">
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>

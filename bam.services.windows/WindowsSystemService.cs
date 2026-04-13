@@ -16,7 +16,7 @@ using System.Text;
 
 namespace Bam.Net
 {
-    public class ServiceExe : ServiceBase
+    public class WindowsSystemService : ServiceBase
     {
         protected static ILogger logger;
         protected static string serviceName;
