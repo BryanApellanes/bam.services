@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Management" Version="10.0.5" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="10.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\bam.base\bam.base\bam.base.csproj" />
+    <ProjectReference Include="..\..\bam.console\bam.console\bam.console.csproj" />
+    <ProjectReference Include="..\..\bam.logging\bam.logging.windows\bam.logging.windows.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ServiceExe.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+
+</Project>
