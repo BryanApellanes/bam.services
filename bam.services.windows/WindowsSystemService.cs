@@ -18,10 +18,10 @@ namespace Bam.Net
 {
     public class WindowsSystemService : ServiceBase
     {
-        protected static ILogger logger;
-        protected static string serviceName;
-        protected static string displayName;
-        protected static string description;
+        protected static ILogger? logger;
+        protected static string serviceName = string.Empty;
+        protected static string displayName = string.Empty;
+        protected static string description = string.Empty;
 
         public static ServiceInfo Info
         {
@@ -189,10 +189,10 @@ namespace Bam.Net
             return false;
         }
 
-        public static event ServiceInstallHandler StartInstall;
-        public static event ServiceInstallHandler EndInstall;
-        public static event ServiceInstallHandler StartUninstall;
-        public static event ServiceInstallHandler EndUninstall;
+        public static event ServiceInstallHandler? StartInstall;
+        public static event ServiceInstallHandler? EndInstall;
+        public static event ServiceInstallHandler? StartUninstall;
+        public static event ServiceInstallHandler? EndUninstall;
 
         public static void OnStartInstall()
         {
@@ -207,7 +207,7 @@ namespace Bam.Net
                 {
                     string messageFormat = "ERROR:: An error occurred in Pre-Install handlers of {0}...";
                     Message.PrintLine(string.Format(messageFormat, serviceName));
-                    Log.Default.AddEntry(messageFormat, ex, new string[] { serviceName });
+                    Log.Default?.AddEntry(messageFormat, ex, new string[] { serviceName });
                 }
             }
         }
@@ -225,7 +225,7 @@ namespace Bam.Net
                 {
                     string messageFormat = "ERROR:: An error occurred in Post-Install handlers of {0}...";
                     Message.PrintLine(string.Format(messageFormat, serviceName) + "\r\n\t" + ex.Message);
-                    Log.Default.AddEntry(messageFormat, ex, new string[] { serviceName });
+                    Log.Default?.AddEntry(messageFormat, ex, new string[] { serviceName });
                 }
             }
         }
@@ -243,7 +243,7 @@ namespace Bam.Net
                 {
                     string messageFormat = "ERROR:: An error occured in Pre-Uninstall handlers of {0}...";
                     Message.PrintLine(string.Format(messageFormat, serviceName) + "\r\n\t" + ex.Message);
-                    Log.Default.AddEntry(messageFormat, ex, new string[] { serviceName });
+                    Log.Default?.AddEntry(messageFormat, ex, new string[] { serviceName });
                 }
             }
         }
@@ -263,7 +263,7 @@ namespace Bam.Net
                     Message.PrintLine(string.Format(messageFormat, serviceName));
                     try
                     {
-                        Log.Default.AddEntry(messageFormat, ex, new string[] { serviceName });
+                        Log.Default?.AddEntry(messageFormat, ex, new string[] { serviceName });
                     }
                     catch { }// logger was probably a WindowsLogger but it got deleted, no need to do anything about it here
                 }
@@ -297,12 +297,12 @@ namespace Bam.Net
             Install(serviceName, displayname, description, null, false);
         }
 
-        public static void Install(string serviceName, string displayName, string description, string credentialKey)
+        public static void Install(string serviceName, string displayName, string description, string? credentialKey)
         {
             Install(serviceName, displayName, description, credentialKey, false);
         }
 
-        public static void Install(string serviceName, string displayName, string description, string credentialKey, bool allowDesktopInteract)
+        public static void Install(string serviceName, string displayName, string description, string? credentialKey, bool allowDesktopInteract)
         {
             string? userName = string.IsNullOrEmpty(credentialKey) ? null : Configuration.DefaultConfiguration.GetAppSetting(credentialKey);
             string? password = string.IsNullOrEmpty(credentialKey) ? null : Configuration.DefaultConfiguration.GetAppSetting(credentialKey + "Password");
@@ -312,25 +312,25 @@ namespace Bam.Net
             Install(serviceName, displayName, description, allowDesktopInteract, userName, password);
         }
 
-        public static void Install(string serviceName, string displayName, string description, string serviceAccountName, string serviceAccountPassword)
+        public static void Install(string serviceName, string displayName, string description, string? serviceAccountName, string? serviceAccountPassword)
         {
             Install(serviceName, displayName, description, false, serviceAccountName, serviceAccountPassword);
         }
 
-        public static void Install(string serviceName, string displayName, string description, bool allowDesktopInteraction, string serviceAccountName, string serviceAccountPassword)
+        public static void Install(string serviceName, string displayName, string description, bool allowDesktopInteraction, string? serviceAccountName, string? serviceAccountPassword)
         {
             OnStartInstall();
             try
             {
                 bool withIssues = false;
-                Assembly cur = Assembly.GetEntryAssembly();
+                Assembly cur = Assembly.GetEntryAssembly() ?? throw new InvalidOperationException("There is no entry assembly; a Windows service is installed from its own executable.");
                 Message.PrintLine("INFO:: Creating service from " + cur.Location);
                 ManagementClass win32Service = new ManagementClass(@"\\.\root\cimv2:Win32_Service");
 
                 Message.PrintLine("INFO:: ServiceName={0},DisplayName={1},Description={2}", serviceName, displayName, description);
 
-                object ret = win32Service.InvokeMethod("Create", new object[] { serviceName, displayName, cur.Location, 16, 0, "Automatic", allowDesktopInteraction, serviceAccountName, serviceAccountPassword, null, null, null });
-                if (ret.ToString().Equals("0"))
+                object ret = win32Service.InvokeMethod("Create", new object?[] { serviceName, displayName, cur.Location, 16, 0, "Automatic", allowDesktopInteraction, serviceAccountName, serviceAccountPassword, null, null, null });
+                if ("0".Equals(ret.ToString()))
                 {
                     Message.PrintLine("INFO:: Service was created successfully");
                 }
@@ -344,7 +344,7 @@ namespace Bam.Net
                 {
                     Message.PrintLine("INFO:: Setting description for '{0}' to '{1}'", displayName, description);
 
-                    RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Services\" + serviceName, true);
+                    RegistryKey? key = Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Services\" + serviceName, true);
                     if (key == null)
                     {
                         withIssues = true;
@@ -489,7 +489,7 @@ namespace Bam.Net
             Message.PrintLine("Do you want to continue? (y/N)");
             string? answer = System.Console.ReadLine();
 
-            if (answer.Equals("Y") || answer.Equals("y"))
+            if ("Y".Equals(answer) || "y".Equals(answer))
             {
                 Message.PrintLine("INFO: Deleting log...");
                 EventLog.Delete(logName);
@@ -507,10 +507,11 @@ namespace Bam.Net
         /// </summary>
         public static ILogger CreateLog(string svcName)
         {
-            logger = (WindowsLogger)Log.CreateLogger("Windows");
-            logger.ApplicationName = svcName;
+            WindowsLogger windowsLogger = (WindowsLogger)Log.CreateLogger("Windows");
+            windowsLogger.ApplicationName = svcName;
             WindowsLogger.CreateLog(svcName, svcName);
-            return logger;
+            logger = windowsLogger;
+            return windowsLogger;
         }
     }
 }
