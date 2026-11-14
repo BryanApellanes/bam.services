@@ -20,7 +20,7 @@ namespace Bam.CoreServices.ServiceRegistration.Data
             Type toUse = types.FirstOrDefault()!;
             if(types.Length > 1)
             {
-                Log.Warn("The specified assembly {0} contains more than one type adorned with a {1} attribute, registering {2}", ass.GetFilePath(), nameof(ServiceRegistryContainerAttribute), toUse!.FullName!);
+                Log.Warn("The specified assembly {0} contains more than one type adorned with a {1} attribute, registering {2}", ass.GetFilePathOrName(), nameof(ServiceRegistryContainerAttribute), toUse!.FullName!);
             }
             Initialize(toUse!);
         }
@@ -85,7 +85,9 @@ namespace Bam.CoreServices.ServiceRegistration.Data
                 }
             }
             ServiceRegistryLoaderAttribute attr = loaderMethodInfo.GetCustomAttributeOfType<ServiceRegistryLoaderAttribute>();
-            Name = string.IsNullOrEmpty(name) ? (string.IsNullOrEmpty(attr.RegistryName) ?  $"{type.Assembly.GetFileInfo().Name}_{type.Name}" : attr.RegistryName): name;
+            // an assembly loaded from bytes has no file; use the file name it would have, so the default stays the same
+            string assemblyName = type.Assembly.TryGetFileInfo(out FileInfo? assemblyFile) ? assemblyFile.Name : $"{type.Assembly.GetName().Name}.dll";
+            Name = string.IsNullOrEmpty(name) ? (string.IsNullOrEmpty(attr.RegistryName) ?  $"{assemblyName}_{type.Name}" : attr.RegistryName): name;
             Description = string.IsNullOrEmpty(description) ? attr.Description: description;
         }
     }

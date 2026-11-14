@@ -60,14 +60,17 @@ namespace Bam.CoreServices.ServiceRegistration.Data
             {
                 buildNumber = commitFile.ReadAllText().Trim();
             }
-            FileInfo assemblyFileInfo = type.Assembly.GetFileInfo();
+            // an assembly loaded from bytes (generated decorators, Dao assemblies) has no file:
+            // identify it by its full name and the hash of its module version id instead
+            Assembly assembly = type.Assembly;
+            bool hasFile = assembly.TryGetFileInfo(out FileInfo? assemblyFileInfo);
             ServiceTypeIdentifier result = new ServiceTypeIdentifier
             {
                 BuildNumber = buildNumber,
                 Namespace = type.Namespace,
                 TypeName = type.Name,
-                AssemblyName = assemblyFileInfo.Name,
-                AssemblyFileHash = assemblyFileInfo.Sha1()
+                AssemblyName = hasFile ? assemblyFileInfo!.Name : assembly.FullName!,
+                AssemblyFileHash = hasFile ? assemblyFileInfo!.Sha1() : assembly.ManifestModule.ModuleVersionId.ToString().Sha1()
             };
             result.SetDurableHashes();
             return result;
